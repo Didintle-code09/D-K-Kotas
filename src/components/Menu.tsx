@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { copy, menu, type Category } from "../config";
-import { basketCount, basketLines, basketTotal, formatPrice, type Basket } from "../lib/order";
+import { basketCount, basketLines, basketTotal, displayDescription, formatPrice, type Basket } from "../lib/order";
 import { scrollToSection } from "../lib/scroll";
 import { ArrowIcon, CheckIcon, PlusIcon } from "./Icons";
 import LeadHeading from "./LeadHeading";
@@ -45,7 +45,7 @@ export default function Menu({ basket, onAdd }: { basket: Basket; onAdd: (id: st
   return (
     <section className="section section--menu" id="menu" aria-labelledby="menu-title" tabIndex={-1}>
       <div className="container container--narrow">
-        <LeadHeading id="menu-title" text={copy.menu.heading} className="section__title" />
+        <LeadHeading id="menu-title" text={copy.menu.heading} className="section__title" reveal />
       </div>
 
       <div className="tabs-wrap">
@@ -75,19 +75,25 @@ export default function Menu({ basket, onAdd }: { basket: Basket; onAdd: (id: st
       </div>
 
       <div className="container container--narrow">
-        <div id="menu-panel" role="tabpanel" aria-labelledby={tabId(active)}>
+        <div id="menu-panel" role="tabpanel" data-reveal="" aria-labelledby={tabId(active)}>
           {note && <p className="menu__note">{note}</p>}
           <ul className="menu__list">
             {items.map((item) => {
               const added = justAdded === item.id;
+              const description = displayDescription(item.description);
               return (
                 <li key={item.id} className="menu__item">
+                  {item.image && (
+                    <span className="thumb menu__thumb">
+                      <img src={item.image} alt="" loading="lazy" decoding="async" width={88} height={88} />
+                    </span>
+                  )}
                   <div className="menu__text">
                     <h3 className="menu__name">
                       {item.name}
                       {item.badge && <span className="badge">{item.badge}</span>}
                     </h3>
-                    {item.description && <p className="menu__desc">{item.description}</p>}
+                    {description && <p className="menu__desc">{description}</p>}
                   </div>
                   <p className="price">{formatPrice(item.price)}</p>
                   <button

@@ -28,10 +28,12 @@ export default function Footer() {
             </ul>
           )}
         </div>
-        <div>
-          <h2 className="eyebrow">{copy.footer.whatsappLabel}</h2>
-          <p className="footer__text">{config.whatsappDisplay}</p>
-        </div>
+        {!config.demoMode && (
+          <div>
+            <h2 className="eyebrow">{copy.footer.whatsappLabel}</h2>
+            <p className="footer__text">{config.whatsappDisplay}</p>
+          </div>
+        )}
         <div>
           <h2 className="eyebrow">{copy.footer.hoursLabel}</h2>
           <dl className="footer__hours">

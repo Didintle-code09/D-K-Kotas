@@ -34,7 +34,7 @@ export default function LegalPage({ doc }: { doc: LegalDoc }) {
         </em>
       </p>
       {doc.sections.map((s) => (
-        <section key={s.title} className="legal__section">
+        <section key={s.title} className="legal__section" data-reveal="">
           <h2>{s.title}</h2>
           <SectionBody section={s} />
         </section>

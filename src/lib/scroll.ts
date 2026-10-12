@@ -1,6 +1,9 @@
 import { useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+/** Fired before a programmatic section scroll so the navbar stays visible instead of hiding. */
+export const SECTION_SCROLL_EVENT = "dk:section-scroll";
+
 export const prefersReducedMotion = () =>
   typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -8,6 +11,7 @@ export const prefersReducedMotion = () =>
 export function scrollToSection(id: string) {
   const el = document.getElementById(id);
   if (!el) return;
+  window.dispatchEvent(new Event(SECTION_SCROLL_EVENT));
   el.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "start" });
   el.focus({ preventScroll: true });
 }

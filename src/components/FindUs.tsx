@@ -1,5 +1,6 @@
 import { config, copy, hours } from "../config";
 import { isOpenNow, useShopTime } from "../lib/hours";
+import { revealDelay } from "../lib/reveal";
 import { ExternalIcon, PinIcon } from "./Icons";
 import LeadHeading from "./LeadHeading";
 
@@ -12,10 +13,10 @@ export default function FindUs() {
   return (
     <section className="section" id="find-us" aria-labelledby="find-us-title" tabIndex={-1}>
       <div className="container container--narrow">
-        <LeadHeading id="find-us-title" text={t.heading} className="section__title" />
+        <LeadHeading id="find-us-title" text={t.heading} className="section__title" reveal />
 
         <div className="find">
-          <div className="find__address">
+          <div className="find__address" data-reveal="">
             <h3 className="eyebrow">{t.addressLabel}</h3>
             <address className="find__address-text">
               <PinIcon size={22} />
@@ -28,7 +29,7 @@ export default function FindUs() {
             </a>
           </div>
 
-          <div className="card find__hours">
+          <div className="card find__hours" data-reveal="" style={revealDelay(1, 140)}>
             <div className="find__hours-head">
               <h3 className="eyebrow">{t.hoursLabel}</h3>
               <span className={`pill ${open ? "pill--open" : "pill--closed"}`}>{open ? t.openNow : t.closed}</span>

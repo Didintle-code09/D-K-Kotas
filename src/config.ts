@@ -12,6 +12,8 @@ export interface MenuItem {
   readonly description: string;
   readonly featured?: boolean;
   readonly badge?: string;
+  /** Photo in public/images (optional). */
+  readonly image?: string;
 }
 
 export interface DayHours {
@@ -39,6 +41,8 @@ export interface LegalDoc {
 }
 
 export interface SiteConfig {
+  /** Presentation mode: the order button previews the WhatsApp message instead of opening WhatsApp. */
+  readonly demoMode: boolean;
   readonly businessName: string;
   readonly tagline: string;
   readonly subline: string;
@@ -51,8 +55,10 @@ export interface SiteConfig {
   readonly mapsUrl: string;
   readonly instagramUrl: string;
   readonly tiktokUrl: string;
-  readonly heroImage: string;
-  readonly bannerImage: string;
+  /** Hero mosaic: 6 photos on desktop/tablet (3 × 2), the first 4 on phones (2 × 2). */
+  readonly heroImages: readonly string[];
+  /** Order-ahead banner: 3 photos side by side, the first one on phones. */
+  readonly bannerImages: readonly string[];
   readonly ratingLabel: string;
   readonly creditName: string;
   readonly creditUrl: string;
@@ -63,8 +69,13 @@ export interface SiteConfig {
 // Shared values used inside the legal copy below.
 const shortAddress = "13 Graduate St, Belhar 8, Cape Town";
 const whatsappDisplay = "[0XX XXX XXXX]";
+// While the WhatsApp number is unknown: no WhatsApp is opened and the number is never shown.
+// Set to false once whatsappNumber / whatsappDisplay are real.
+const demoMode = true;
+const contactLine = demoMode ? "Contact us on WhatsApp." : `Contact: WhatsApp ${whatsappDisplay}.`;
 
 export const config = {
+  demoMode,
   businessName: "DK Spot",
   tagline: "Kota at its best. Monate!",
   subline: "Monate. Every single bite.",
@@ -85,27 +96,28 @@ export const config = {
   mapsUrl: "https://www.google.com/maps/search/?api=1&query=DK+Spot+kota+at+its+best&query_place_id=ChIJzcVyF3JRzB0RTy-wWd3ikas",
   instagramUrl: "",
   tiktokUrl: "",
-  heroImage: "/images/hero-placeholder.jpg",
-  bannerImage: "/images/banner-placeholder.jpg",
+  // Photos cropped from DK Spot's Uber Eats listing. [REPLACE] with high-res originals when available.
+  heroImages: ["/images/kota-3.jpg", "/images/kota-7.jpg", "/images/kota-5.jpg", "/images/fries.jpg", "/images/kota-1.jpg", "/images/kota-2.jpg"],
+  bannerImages: ["/images/kota-7.jpg", "/images/fries.jpg", "/images/kota-1.jpg"],
   ratingLabel: "4.5 on Uber Eats · 700+ ratings",
   creditName: "Moratamotho Devs",
   creditUrl: "https://moratamothodevs.co.za",
   legalLastUpdated: "[DATE]",
   menu: [
-    { id: "kota-1", category: "Kotas", name: "Kota 1", price: 35, description: "Chips, atchar, lettuce, polony" },
-    { id: "kota-2", category: "Kotas", name: "Kota 2", price: 40, description: "Kota 1 + cheese" },
-    { id: "kota-3", category: "Kotas", name: "Kota 3", price: 45, description: "Chips, atchar, lettuce, polony, cheese, Vienna", featured: true, badge: "Most loved" },
-    { id: "kota-4", category: "Kotas", name: "Kota 4", price: 50, description: "Everything in Kota 3, plus egg", featured: true },
-    { id: "kota-5", category: "Kotas", name: "Kota 5", price: 60, description: "[FILLINGS]", featured: true },
-    { id: "kota-6", category: "Kotas", name: "Kota 6", price: 70, description: "[FILLINGS]" },
-    { id: "kota-7", category: "Kotas", name: "Kota 7", price: 80, description: "[FILLINGS] · the full stack" },
+    { id: "kota-1", category: "Kotas", name: "Kota 1", price: 35, description: "Chips, atchar, lettuce, polony", image: "/images/kota-1.jpg" },
+    { id: "kota-2", category: "Kotas", name: "Kota 2", price: 40, description: "Kota 1 + cheese", image: "/images/kota-2.jpg" },
+    { id: "kota-3", category: "Kotas", name: "Kota 3", price: 45, description: "Chips, atchar, lettuce, polony, cheese, Vienna", featured: true, badge: "Most loved", image: "/images/kota-3.jpg" },
+    { id: "kota-4", category: "Kotas", name: "Kota 4", price: 50, description: "Everything in Kota 3, plus egg", featured: true, image: "/images/kota-4.jpg" },
+    { id: "kota-5", category: "Kotas", name: "Kota 5", price: 60, description: "Chips, atchar, lettuce, polony, cheese, egg, Russian", featured: true, image: "/images/kota-5.jpg" },
+    { id: "kota-6", category: "Kotas", name: "Kota 6", price: 70, description: "Chips, atchar, lettuce, polony, cheese, egg, Russian, patty", image: "/images/kota-6.jpg" },
+    { id: "kota-7", category: "Kotas", name: "Kota 7", price: 80, description: "Chips, atchar, lettuce, polony, cheese, egg, Vienna, Russian, patty · the full stack", image: "/images/kota-7.jpg" },
     { id: "snack-burger", category: "Burgers", name: "Snack Burger", price: 30, description: "Patty, cheese, ketchup" },
     { id: "real-deal", category: "Burgers", name: "Real Deal Burger", price: 40, description: "2 patties, cheese, lettuce, tomato, onion" },
     { id: "jumbo", category: "Burgers", name: "Jumbo Burger", price: 60, description: "3 patties, 3 cheeses, lettuce, tomato, onion" },
     { id: "chip-roll", category: "Chip rolls", name: "Chip Roll", price: 30, description: "" },
     { id: "vienna-chip-roll", category: "Chip rolls", name: "Vienna Chip Roll", price: 35, description: "" },
     { id: "russian-chip-roll", category: "Chip rolls", name: "Russian Chip Roll", price: 45, description: "" },
-    { id: "fries-regular", category: "Fries", name: "Fries (regular)", price: 45, description: "" },
+    { id: "fries-regular", category: "Fries", name: "Fries (regular)", price: 45, description: "Crispy potato sticks served hot", image: "/images/fries.jpg" },
   ],
 } as const satisfies SiteConfig;
 
@@ -116,8 +128,8 @@ export const hours: readonly DayHours[] = config.hours;
 /** Site copy: every visible string the components render. */
 export const copy = {
   wordmarkSub: "Kota House · Belhar",
-  heroImageAlt: "Photo coming soon",
-  bannerImageAlt: "Photo coming soon",
+  heroImagesAlt: "Kotas and fries from DK Spot: quarter loaves stacked with chips, polony, cheese and Vienna",
+  bannerImagesAlt: "A DK Spot Kota stacked with Viennas, chips and sauce",
   skipLink: "Skip to content",
   addedAnnouncement: "added to your basket.",
 
@@ -136,6 +148,15 @@ export const copy = {
     headline: { lead: "Kota at its", rest: " Best." },
     primary: "Pre-order Now",
     secondary: "See the Menu",
+    scrollCue: "Scroll",
+  },
+
+  // Two rows of moving words under the hero: the brand on top, what goes in the Kota below.
+  marquee: {
+    primary: ["Kota at its best", "Monate", "Kota House", "Every single bite"],
+    secondary: ["Chips", "Atchar", "Polony", "Vienna", "Cheese", "Russian", "Egg", "Patty"],
+    pause: "Pause moving text",
+    play: "Play moving text",
   },
 
   mostLoved: {
@@ -191,6 +212,8 @@ export const copy = {
       consent: "tick the box above",
     },
     sent: "Your order is ready — just hit send in WhatsApp. We'll confirm it there.",
+    demoTitle: "Your order is ready to send",
+    demoDone: "Done",
     reopen: "WhatsApp didn't open? Try again",
     deliveryPrefix: "Prefer delivery? ",
     deliveryLink: "Order on Uber Eats",
@@ -257,7 +280,7 @@ export const terms: LegalDoc = {
   pageTitle: "Terms and Conditions | DK Spot",
   heading: "DK Spot — Terms and Conditions",
   sections: [
-    { title: "1. About us", body: `DK Spot is a takeaway at ${shortAddress}. Contact: WhatsApp ${whatsappDisplay}.` },
+    { title: "1. About us", body: `DK Spot is a takeaway at ${shortAddress}. ${contactLine}` },
     { title: "2. Pre-orders", body: "Sending a pre-order on WhatsApp is a request. Your order is confirmed only when we reply to confirm it. During busy times we may suggest a later pickup time." },
     { title: "3. Prices and payment", body: "Prices on this website are for collection at our shop and may differ from delivery apps. You pay when you collect. Prices may change without notice; the price confirmed in WhatsApp applies." },
     { title: "4. Collection", body: "Please collect at your chosen time. Orders not collected within [30] minutes of the pickup time may be released." },
@@ -274,7 +297,7 @@ export const privacy: LegalDoc = {
   pageTitle: "Privacy Policy | DK Spot",
   heading: "DK Spot — Privacy Policy",
   sections: [
-    { title: "1. Who we are", body: `DK Spot, ${shortAddress}, is responsible for your personal information. Contact: WhatsApp ${whatsappDisplay}.` },
+    { title: "1. Who we are", body: `DK Spot, ${shortAddress}, is responsible for your personal information. ${contactLine}` },
     { title: "2. What we collect", body: "When you pre-order: your name, your order, your pickup time and any note. WhatsApp also shows us your phone number." },
     { title: "3. How the pre-order form works", body: "The form does not store anything on this website. It opens WhatsApp with your order filled in, and nothing is sent until you press send. Once sent, your message is also handled under WhatsApp's own privacy policy." },
     { title: "4. Why we use it", body: "Only to confirm, prepare and hand over your order, and to contact you about that order. No marketing messages unless you ask for them." },

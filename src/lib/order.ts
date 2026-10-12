@@ -10,6 +10,13 @@ export interface BasketLine {
 
 export const formatPrice = (rand: number) => `R${rand}`;
 
+/** Description with any [PLACEHOLDER] removed: "[FILLINGS] · the full stack" → "the full stack", "[FILLINGS]" → "". */
+export const displayDescription = (description: string) =>
+  description
+    .replace(/\[[^\]]*\]/g, "")
+    .replace(/^[\s·]+|[\s·]+$/g, "")
+    .trim();
+
 export function basketLines(basket: Basket): BasketLine[] {
   return menu
     .filter((item) => (basket[item.id] ?? 0) > 0)

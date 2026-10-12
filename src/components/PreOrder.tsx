@@ -6,6 +6,7 @@ import { basketLines, basketTotal, formatPrice, orderMessage, whatsappLink, type
 import { scrollToSection } from "../lib/scroll";
 import { ExternalIcon, MinusIcon, PlusIcon, WhatsAppIcon } from "./Icons";
 import LeadHeading from "./LeadHeading";
+import OrderPreviewModal from "./OrderPreviewModal";
 
 const ASAP = "ASAP";
 const t = copy.preorder;
@@ -16,6 +17,7 @@ export default function PreOrder({ basket, setQty }: { basket: Basket; setQty: (
   const [note, setNote] = useState("");
   const [consent, setConsent] = useState(false);
   const [sentUrl, setSentUrl] = useState<string | null>(null);
+  const [preview, setPreview] = useState<string | null>(null); // demo mode only
   const ids = useId();
 
   const now = useShopTime();
@@ -47,7 +49,12 @@ export default function PreOrder({ basket, setQty }: { basket: Basket; setQty: (
   const send = (e: FormEvent) => {
     e.preventDefault();
     if (!ready) return;
-    const url = whatsappLink(orderMessage({ name: name.trim(), pickup: pickupText(), lines, note: note.trim() }));
+    const message = orderMessage({ name: name.trim(), pickup: pickupText(), lines, note: note.trim() });
+    if (config.demoMode) {
+      setPreview(message);
+      return;
+    }
+    const url = whatsappLink(message);
     window.open(url, "_blank", "noopener");
     setSentUrl(url);
   };
@@ -55,10 +62,10 @@ export default function PreOrder({ basket, setQty }: { basket: Basket; setQty: (
   return (
     <section className="section section--preorder" id="preorder" aria-labelledby="preorder-title" tabIndex={-1}>
       <div className="container container--narrow">
-        <LeadHeading id="preorder-title" text={t.heading} className="section__title" />
-        <p className="section__intro">{t.intro}</p>
+        <LeadHeading id="preorder-title" text={t.heading} className="section__title" reveal />
+        <p className="section__intro" data-reveal="">{t.intro}</p>
 
-        <form className="preorder" onSubmit={send} noValidate>
+        <form className="preorder" onSubmit={send} noValidate data-reveal="">
           {/* Basket */}
           <fieldset className="card basket">
             <legend className="field__label">{t.basketLabel}</legend>
@@ -211,6 +218,7 @@ export default function PreOrder({ basket, setQty }: { basket: Basket; setQty: (
           </p>
         </form>
       </div>
+      {config.demoMode && <OrderPreviewModal message={preview} onClose={() => setPreview(null)} />}
     </section>
   );
 }

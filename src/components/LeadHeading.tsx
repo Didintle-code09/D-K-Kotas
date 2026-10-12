@@ -8,14 +8,16 @@ export default function LeadHeading({
   text,
   className = "",
   id,
+  reveal = false,
 }: {
   as?: Level;
   text: LeadHeadingCopy;
   className?: string;
   id?: string;
+  reveal?: boolean;
 }) {
   return (
-    <Tag className={`display ${className}`} id={id}>
+    <Tag className={`display ${className}`} id={id} data-reveal={reveal ? "" : undefined}>
       <em>{text.lead}</em>
       {text.rest}
     </Tag>

@@ -3,10 +3,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import FindUs from "../components/FindUs";
 import FloatingWhatsApp from "../components/FloatingWhatsApp";
 import Hero from "../components/Hero";
+import Marquee from "../components/Marquee";
 import Menu from "../components/Menu";
 import MostLoved from "../components/MostLoved";
 import OrderBanner from "../components/OrderBanner";
 import PreOrder from "../components/PreOrder";
+import { config } from "../config";
 import type { Basket } from "../lib/order";
 import { scrollToSection } from "../lib/scroll";
 
@@ -40,6 +42,7 @@ export default function Home({
   return (
     <>
       <Hero />
+      <Marquee />
       <MostLoved
         onAdd={(id) => {
           add(id);
@@ -50,7 +53,7 @@ export default function Home({
       <OrderBanner />
       <PreOrder basket={basket} setQty={setQty} />
       <FindUs />
-      <FloatingWhatsApp />
+      {!config.demoMode && <FloatingWhatsApp />}
     </>
   );
 }

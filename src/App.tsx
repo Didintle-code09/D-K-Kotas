@@ -4,6 +4,7 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import { copy, menu, privacy, terms } from "./config";
 import type { Basket } from "./lib/order";
+import { useReveal } from "./lib/reveal";
 import Home from "./pages/Home";
 import LegalPage from "./pages/LegalPage";
 import NotFound from "./pages/NotFound";
@@ -21,6 +22,8 @@ export default function App() {
   // The basket lives here (in memory only) so it survives a visit to /terms or /privacy.
   const [basket, setBasket] = useState<Basket>({});
   const [announcement, setAnnouncement] = useState("");
+  const { pathname } = useLocation();
+  useReveal(pathname);
 
   const setQty = useCallback((id: string, qty: number) => {
     setBasket((b) => {

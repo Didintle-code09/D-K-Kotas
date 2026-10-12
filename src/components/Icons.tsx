@@ -82,6 +82,25 @@ export const ArrowIcon = (p: IconProps) => (
   </Icon>
 );
 
+/** Four-point sparkle used between the moving words (filled, not stroked). */
+export const StarIcon = ({ size = 20, ...rest }: IconProps) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" {...rest}>
+    <path d="M12 1.5c.9 6.4 4.1 9.6 10.5 10.5-6.4.9-9.6 4.1-10.5 10.5C11.1 16.1 7.9 12.9 1.5 12 7.9 11.1 11.1 7.9 12 1.5z" />
+  </svg>
+);
+
+export const PauseIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M9 6v12M15 6v12" />
+  </Icon>
+);
+
+export const PlayIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M8 5.5v13l10-6.5z" />
+  </Icon>
+);
+
 export const ExternalIcon = (p: IconProps) => (
   <Icon {...p}>
     <path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />

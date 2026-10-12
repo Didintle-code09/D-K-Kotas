@@ -26,7 +26,8 @@ Node 18 or newer. The npm scripts call Vite and TypeScript through `node` direct
 | Opening hours (drive pickup slots, Open now / Closed and the footer) | `hours` |
 | Menu items, prices, descriptions, "Most loved" featured items | `menu` |
 | Instagram / TikTok links (empty = hidden) | `instagramUrl`, `tiktokUrl` |
-| Hero / banner photos | `heroImage`, `bannerImage` (put files in `public/images/`) |
+| Hero mosaic / banner photos | `heroImages` (6: 3 × 2, first 4 on phones), `bannerImages` (3, first 1 on phones) |
+| Menu item photos | `image` on each `menu` item (optional) |
 | Legal "Last updated" date | `legalLastUpdated` |
 | Terms / Privacy text | `terms`, `privacy` |
 | All other on-screen wording | `copy` |
@@ -36,15 +37,14 @@ Node 18 or newer. The npm scripts call Vite and TypeScript through `node` direct
 Every `[BRACKETED]` value is shown on the site on purpose until it is confirmed:
 
 - `[27XXXXXXXXX]` / `[0XX XXX XXXX]`: WhatsApp number
-- `[FILLINGS]`: Kota 5, 6 and 7 fillings
 - `[DATE]`: legal "Last updated" date
 - `[30]` minutes (Terms §4) and `[3 months]` (Privacy §6)
 - Opening hours: Google and Uber Eats disagree (see the `[CONFIRM]` comment)
-- Photos: `public/images/*-placeholder.jpg` are neutral dark placeholders ("Photo coming soon")
+- Photos: `public/images/kota-*.jpg` and `fries.jpg` are cropped from DK Spot's Uber Eats listing (~540 px). Replace them with high-res originals from the owner (same file names, ideally 1600 px+). Kota 4 and Kota 6 currently reuse the Kota 3 and Kota 5 photos, as on Uber Eats.
 
 ## Launch checklist
 
-1. Replace every placeholder above and add real photos (update `heroImageAlt` / `bannerImageAlt` in `copy`).
+1. Replace every placeholder above, swap in high-res photos and check `heroImagesAlt` / `bannerImagesAlt` in `copy`.
 2. In `index.html`, **remove the `noindex` meta tag** (marked `<!-- REMOVE noindex AT LAUNCH -->`).
 3. Once confirmed, add `"telephone"` to the JSON-LD block in `index.html`.
 
